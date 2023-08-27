@@ -1,39 +1,47 @@
-# arp
+#####  arp 测试 
 
 #### 介绍
 （1）实验室环境下，发送端将包含目标IP地址的ARP请求广播到局域网络上的所有主机，并接收返回消息。
 （2）简单用户界面：显示IP地址和相对应的MAC地址。
 
 
-#### 软件架构
-软件架构说明
-
+#### 软件主要功能：
+1、基础通用功能定义
+2、向指定ip发送arp数据包
+3、功侦听和接收ARP包，显示接收到的包内容
+4、持续接收功侦听和接收ARP包， 显示接收到的IP和mac
+5、列出局域网内活动主机的ip和mac，保存到指定的文本文件中
 
 #### 安装教程
+####  一、实验环境：
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+Vmware下面安装 Linux系统，
+VMware® Workstation 17 Pro
+Unbuntu 20.4  
+Winscp5.21 ，
+SecureCRT 8.5
+#### 二、编程语言
+C语言， gcc 9.4.0
 
-#### 使用说明
+#### 三、功能框架
+	
+功能名称	功能说明
+1、基础通用功能定义	定义结构体，
+定义基本输出函数，
+定义转换函数 ，
+定义ip和mac射影队列处理函数 
+2、向指定ip发送arp数据包	构造arp数据包，向指定ip发送arp数据包
+3、功侦听和接收ARP包，显示接收到的包内容	
+4、持续接收功侦听和接收ARP包， 显示接收到的IP和mac	
+5、列出局域网内活动主机的ip和mac，保存到指定的文本文件中	
+	
+	
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 参与贡献
-
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
 
 
-#### 特技
+#### 四、	程序主要流程
+ 
 
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+
+#### 联系方式 QQ  75039960
+ 
