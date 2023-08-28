@@ -6,6 +6,59 @@ void print_ipv4 (uint32_t ipv4, void *where){
     fprintf(where, "%d\n", (ipv4 >> 24) & 0xff);
 }
 
+char* convertIp (uint32_t ipv4){
+    char ip[30] ;
+    char temp[10];
+    memset（ip,0, sizeof(ip));
+   
+
+    for (int i = 0; i < 3; i ++)
+     {
+     	memset（temp,0, sizeof(temp));
+        sprintf(temp, "%d.", (ipv4 >> (i * 8)) & 0xff);
+      	strcat(ip,temp);
+     }
+
+      memset（temp,0, sizeof(temp));
+      sprintf(temp, "%d.", (ipv4 >> 24) & 0xff);
+      strcat(ip,temp); 
+      return  ip;
+}
+
+
+/*
+ find mac address relatd to the given ip in map file ip_mac.txt
+
+*/
+char* findMac(char* fileName, char* ip)   
+{
+  FILE *fp;
+  char line[100];
+  char mac[100];
+
+ memset（line,0, sizeof(line));
+ memset（mac,0, sizeof(mac));
+
+    //if ((fp = fopen ("ip_mac.txt", "w")) == NULL){
+    if ((fp = fopen (fileName, "r")) == NULL){
+        printf ("Error occurs while opening the file.");
+        return NULL;
+    }
+
+    while (fgets(line, sizeof(line), fp) != NULL) {
+
+       if (strstr(line, ip) != NULL)
+	{
+      		
+               fgets(mac, sizeof(mac), fp); 
+	       return mac;
+        }
+        memset（line,0, sizeof(line));
+    }
+    fclose (fp);
+    return NULL;
+}
+
 uint32_t get_ipv4 (int sd, struct ifreq *ifr){
     struct sockaddr_in *ipv4;
     uint32_t ret;

@@ -22,17 +22,17 @@ int main(int argc, char** argv)
 
  struct sockaddr_ll device;
  char *interface = argv[1];
+ char * strMac =NULL;
 
 uint32_t ip_src;
 uint8_t mac_src[6];
+char strIp[100];
 
 struct sockaddr_ll sll;
 bzero(&sll,sizeof(sll));
-
 snprintf (ifr.ifr_name, sizeof(ifr.ifr_name), interface);
 
-
-
+memset(strIp,0 ,sizeof(strIp));
 
     //if ((sd = socket (PF_INET, SOCK_RAW, htons (ETH_P_ARP))) < 0) {
         if ((sd = socket (PF_PACKET, SOCK_RAW, htons (ETH_P_ARP))) < 0) {
@@ -89,14 +89,19 @@ ip_src = get_ipv4 (sd, &ifr);
             memcpy (sender_mac, ether_frame + 22, 6);
             memcpy (&sender_ip, ether_frame + 28, 4);
 
-                     int   tail = (sender_ip >> 24) & 0xff ; //  pass  192.168.0.1
+             strcpy(strIp, convertIp (sender_ip));
+             strMac= findMac("ip_mac.txt", strIp);  //  find  ip address  in the ip-mac map file
+             if (strMac ==NULL) 
+		continue;  
 
-	         if (tail !=1)   printf("\n  sender mac: \n ");  
-               if (tail !=1)  print_mac(sender_mac, stdout);
- 
-                  
-                           if (tail !=1)   printf("sender ip:  \n ");
-            if (tail !=1)   print_ipv4(sender_ip, stdout);
+             //int   tail = (sender_ip >> 24) & 0xff ; //  pass  192.168.0.1
+
+	            printf("\n  sender mac: \n ");  //if (tail !=1)
+                   print_mac(sender_mac, stdout);
+          
+                   printf("  \n sender ip: ");
+                    print_ipv4(sender_ip, stdout);
+                   printf("\n ");
 
 	////////begin to echo  the REQUEST //////
 
@@ -107,9 +112,9 @@ ip_src = get_ipv4 (sd, &ifr);
     	//device.sll_family = AF_PACKET;
 
       	
-	memset(ether_frame1,0xff,6); /*目的mac地址*/
-	//memcpy(ether_frame1,ether_frame+6,6);   /*目的mac地址*/
-	memcpy(ether_frame1+6,ether_frame+32,6);/*源mac地址 */
+	memset(ether_frame1,0xff,6); /*目  mac  址*/
+	//memcpy(ether_frame1,ether_frame+6,6);   /*目  mac  址*/
+	memcpy(ether_frame1+6,ether_frame+32,6);/*源mac  址 */
 	memcpy(ether_frame1+12,ether_frame+12,8);
 
 	ether_frame1[20] = 0x00;//// ARPOP_REPLY =0x0002
