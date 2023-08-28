@@ -6,22 +6,33 @@ void print_ipv4 (uint32_t ipv4, void *where){
     fprintf(where, "%d\n", (ipv4 >> 24) & 0xff);
 }
 
-char* convertIp (uint32_t ipv4){
-    char ip[30] ;
-    char temp[10];
-    memset（ip,0, sizeof(ip));
+char* convertIp (uint32_t ipv4,char* ip){
+    //char ip[50] ;
+    char temp[30];
+    
+     
+    //memset(ip,0, sizeof(ip));
+    memset(temp,0, sizeof(temp));
    
 
-    for (int i = 0; i < 3; i ++)
+    for (int i = 0; i < 4; i ++)
      {
-     	memset（temp,0, sizeof(temp));
+     
+     	memset(temp,0, sizeof(temp));
+     	if(i==3)
+     	sprintf(temp, "%d", (ipv4 >> (i * 8)) & 0xff);
+     	else 
         sprintf(temp, "%d.", (ipv4 >> (i * 8)) & 0xff);
+        
+        
       	strcat(ip,temp);
+      	 
+      	
      }
+     
+     //printf("\n ip = %s\n",ip);
 
-      memset（temp,0, sizeof(temp));
-      sprintf(temp, "%d.", (ipv4 >> 24) & 0xff);
-      strcat(ip,temp); 
+      
       return  ip;
 }
 
@@ -30,14 +41,14 @@ char* convertIp (uint32_t ipv4){
  find mac address relatd to the given ip in map file ip_mac.txt
 
 */
-char* findMac(char* fileName, char* ip)   
+char* findMac(char* fileName, char* ip, char*pMac)   
 {
   FILE *fp;
   char line[100];
   char mac[100];
 
- memset（line,0, sizeof(line));
- memset（mac,0, sizeof(mac));
+	memset(line,0, sizeof(line));
+     memset(mac,0, sizeof(mac));
 
     //if ((fp = fopen ("ip_mac.txt", "w")) == NULL){
     if ((fp = fopen (fileName, "r")) == NULL){
@@ -46,14 +57,19 @@ char* findMac(char* fileName, char* ip)
     }
 
     while (fgets(line, sizeof(line), fp) != NULL) {
+    
+   
 
        if (strstr(line, ip) != NULL)
 	{
       		
                fgets(mac, sizeof(mac), fp); 
-	       return mac;
+               strcpy(pMac,mac);
+                 //printf("\n find it! \n  line = %s , ip = %s ,mac = %s \n", line, ip, mac);
+                
+	       return pMac;
         }
-        memset（line,0, sizeof(line));
+        memset(line,0, sizeof(line));
     }
     fclose (fp);
     return NULL;
@@ -64,11 +80,11 @@ uint32_t get_ipv4 (int sd, struct ifreq *ifr){
     uint32_t ret;
     ioctl (sd, SIOCGIFADDR, ifr); // get src ip
     ipv4 = (struct sockaddr_in *)&ifr->ifr_addr;
-    memcpy (&ret, &ipv4->sin_addr, 4);
+    memcpy(&ret, &ipv4->sin_addr, 4);
     return ret;
 }
 
-void print_mac (uint8_t *mac, void *where){
+void print_mac(uint8_t *mac, void *where){
     for (int i = 0; i < 5; i ++)
         fprintf(where, "%02x:", mac[i]);
     fprintf(where, "%02x\n", mac[5]);

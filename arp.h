@@ -61,6 +61,10 @@ struct _arp_hdr {
 
 void print_ipv4 (uint32_t ipv4, void *where);
 
+//char* convertIp (uint32_t ipv4);
+char* convertIp (uint32_t ipv4,char* ip);
+char* findMac(char* fileName, char* ip, char*pMac);   
+
 uint32_t get_ipv4 (int sd, struct ifreq *ifr);
 
 void print_mac (uint8_t *mac, void *where);

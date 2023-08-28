@@ -23,6 +23,7 @@ int main(int argc, char** argv)
  struct sockaddr_ll device;
  char *interface = argv[1];
  char * strMac =NULL;
+   char mac[100];
 
 uint32_t ip_src;
 uint8_t mac_src[6];
@@ -76,30 +77,37 @@ ip_src = get_ipv4 (sd, &ifr);
             }
         }
 
-	//printf("  \n recv ok   \n  ");
+	
 
   	arphdr = (arp_hdr*)(ether_frame + 14);
 
 
         if (((((ether_frame[12]) << 8) + ether_frame[13]) == ETH_P_ARP) && (ntohs (arphdr->opcode) == ARPOP_REQUEST)) {
 
-	//printf("  \n   ARPOP_REQUEST  \n  ");
-              
-
+	
+            
             memcpy (sender_mac, ether_frame + 22, 6);
             memcpy (&sender_ip, ether_frame + 28, 4);
 
-             strcpy(strIp, convertIp (sender_ip));
-             strMac= findMac("ip_mac.txt", strIp);  //  find  ip address  in the ip-mac map file
+                //printf("  \n   b4 convertIp  \n  ");
+                memset(strIp,0 ,sizeof(strIp));
+              
+                memset(mac,0 ,sizeof(mac));
+                 char * pIp = convertIp(sender_ip,strIp);
+                  //printf("  \n   strIp =pIp = %s \n  ", strIp);
+             //strcpy(strIp, pIp);
+             //printf("  \n   after convertIp  \n  ");
+             strMac= findMac("ip_mac.txt", strIp,mac);  //  find  ip address  in the ip-mac map file
+              //printf("  \n  strMac=  %s \n  ",strMac);
              if (strMac ==NULL) 
 		continue;  
 
              //int   tail = (sender_ip >> 24) & 0xff ; //  pass  192.168.0.1
 
-	            printf("\n  sender mac: \n ");  //if (tail !=1)
+	            printf("sender mac: \n ");  //if (tail !=1)
                    print_mac(sender_mac, stdout);
           
-                   printf("  \n sender ip: ");
+                   printf("sender ip: ");
                     print_ipv4(sender_ip, stdout);
                    printf("\n ");
 
