@@ -28,6 +28,9 @@ C语言， gcc 9.4.0
  
 ![输入图片说明](document/process.png)
 
+![输入图片说明](document/recv-echo.png)
+
+
 
 #### 联系方式 QQ  75039960
  
