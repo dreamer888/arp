@@ -5,6 +5,8 @@
 （2）简单用户界面：显示IP地址和相对应的MAC地址。
 ![输入图片说明](document/send-recv.png)
 
+![输入图片说明](document/recv-echo.png)
+
 #### 软件主要功能：
 1、基础通用功能定义
 2、向指定ip发送arp数据包
@@ -28,7 +30,7 @@ C语言， gcc 9.4.0
  
 ![输入图片说明](document/process.png)
 
-![输入图片说明](document/recv-echo.png)
+
 
 
 
