@@ -51,10 +51,13 @@ int main(int argv, char** args)
     struct ifreq ifr;
     char *interface = args[1];
     arp_hdr arphdr;
-        char ipstr[20];
+    char ipstr[20];
 
      uint8_t  ip_dst_array[4] = {192, 168, 37, 111};  //可以从 argv[1] 中提取  
      ip_dst = array2ip(ip_dst_array);
+
+if (true)
+{
 
     memset(ether_frame, 0, sizeof(ether_frame));
 
@@ -73,8 +76,14 @@ int main(int argv, char** args)
     printf("sorce mac:  ");
     print_mac (mac_src, stdout);
    
+
+
     printf("please input target ip ,and press Enter ：  \n");
     gets(ipstr);
+    if (strcmp(ipstr,"quit")==0) 
+	{
+		//break;
+	}
 
 	ip2array(ipstr,ip_dst_array);
 	ip_dst = array2ip(ip_dst_array);
@@ -85,6 +94,7 @@ int main(int argv, char** args)
     //mask_num = get_ipv4_mask_num (sd, &ifr);
     //host_num = 1 << mask_num;
     //net_mask = 0xffffffff >> mask_num;
+
     close(sd);
 
     
@@ -96,6 +106,11 @@ int main(int argv, char** args)
     set_request_arphdr (&arphdr, mac_src, &ip_src, &ip_dst);
     set_broadcast_eth (ether_frame, &arphdr, mac_src);
     send_ether_frame (ether_frame, 60, device);
+
+
+}
+
+ 
     
 
     return 0;

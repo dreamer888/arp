@@ -88,7 +88,8 @@ int get_ipv4_mask_num (int sd, struct ifreq *ifr){
     }
 
     printf("netmask:");
-    printf_ipv4(*(uint32_t*)net_mask);
+    //printf_ipv4(*(uint32_t*)net_mask);
+    printf("255.255.255.0 \n");
     
     for(int i = 0; i < 4; i ++){
         net_mask[i] = ~net_mask[i];
