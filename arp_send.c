@@ -56,7 +56,7 @@ int main(int argv, char** args)
      uint8_t  ip_dst_array[4] = {192, 168, 37, 111};  //可以从 argv[1] 中提取  
      ip_dst = array2ip(ip_dst_array);
 
-if (true)
+if (1)
 {
 
     memset(ether_frame, 0, sizeof(ether_frame));
